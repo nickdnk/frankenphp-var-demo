@@ -19,7 +19,7 @@ $handler = static function () use ($app, $env) {
     // Copy the variables back into the currently scoped $_ENV - without this, it doesn't work at all.
     $_ENV = array_merge($_ENV, $env);
 
-    // Crashes the first time, after that.
+    // Crashes the first time, after that it works.
     SomeOtherClass::SomeStaticFunction();
 
 };
