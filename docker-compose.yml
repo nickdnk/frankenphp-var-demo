@@ -1,0 +1,17 @@
+services:
+  frankenphp:
+    image: dunglas/frankenphp
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - type: bind
+        source: .
+        target: /app/public
+      - type: bind
+        source: ./caddy
+        target: /etc/caddy/Caddyfile
+        read_only: true
+    environment:
+      - CADDY_GLOBAL_OPTIONS=debug
