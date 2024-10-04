@@ -12,16 +12,18 @@ $app->bootstrap(); // This sets our $_ENV - doesn't really matter if we do it ma
 $env = array_merge($_ENV);
 
 // Observe that the defined var gets logged correctly here:
-error_log('After bootstrap: ' . json_encode($_ENV['my_var']) . PHP_EOL);
+error_log('After bootstrap: ' . $_ENV['my_var'] . PHP_EOL);
 
 $handler = static function () use ($app, $env) {
 
     // Copy the variables back into the currently scoped $_ENV - without this, it doesn't work at all.
     $_ENV = array_merge($_ENV, $env);
 
-    // Crashes the first time, after that it works.
-    SomeOtherClass::SomeStaticFunction();
+    // It works here every time, including the first run.
+    error_log('After copying in, before function call: ' . $_ENV['my_var'] . PHP_EOL);
 
+    // Crashes the first time, after that it works.
+    (new SomeOtherClass())->someFunction();
 };
 
 while (true) {
